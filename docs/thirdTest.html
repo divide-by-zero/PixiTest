@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>画像複数読込+Container使用</title>
+</head>
+<script src="pixi.min.js"></script>
+<body>
+<script type="text/javascript">
+    let app = new PIXI.Application({width: 480, height: 480});
+    let TextureCache = PIXI.utils.TextureCache;
+    document.body.appendChild(app.view);
+
+    var blockContainer = new PIXI.Container();
+    app.stage.addChild(blockContainer);
+
+    var uiContainer = new PIXI.Container();
+    app.stage.addChild(uiContainer);
+
+    const blocks = [];
+    const blockSize = 32;
+
+    blockContainer.x = app.screen.width / 2;
+    blockContainer.y = app.screen.height / 2;
+    blockContainer.pivot.x = app.screen.width / 2 - blockSize / 2;
+    blockContainer.pivot.y = app.screen.height / 2 - blockSize / 2;
+
+    PIXI.loader.add("block", "image/block.png").add("ball", "image/ball.png").load(() => {
+        let textures = [TextureCache["image/block.png"], TextureCache["image/ball.png"]];    //エイリアスを使ったTextureCache(正確には PIXI.utils.TextureCache)版
+        let textures2 = [PIXI.loader.resources["block"].texture, PIXI.loader.resources["ball"].texture]; //そもそも、名前付きロード(PIXI.loader.add(～～))を使っているので、PIXI.loader.resourcesを使った版
+
+        for (let i = 0; i < 480; i += blockSize) {
+            for (let j = 0; j < 480; j += blockSize) {
+                let blockSprite = new PIXI.Sprite(textures2.randomAt());
+
+                blockSprite.width = blockSize;
+                blockSprite.height = blockSize;
+
+                blockSprite.x = i;
+                blockSprite.y = j;
+                blockSprite.anchor.set(0.5);
+                blockSprite.tint = [0xcc6fb3, 0xffffff, 0x444444, 0xaa8832].randomAt();
+                blocks.push(blockSprite);
+                blockContainer.addChild(blockSprite);
+            }
+        }
+
+        let style = new PIXI.TextStyle({
+            fontFamily: "Arial",
+            fontSize: 36,
+            fill: "white",
+            stroke: '#ff3300',
+            strokeThickness: 4,
+            dropShadow: true,
+            dropShadowColor: "#000000",
+            dropShadowBlur: 4,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 6,
+        });
+
+        let message = new PIXI.Text("BlockBreaker",style);
+        uiContainer.addChild(message);
+
+        app.ticker.add(delta => {
+            for (let index = 0; index < blocks.length; index++) {
+                const block = blocks[index];
+
+                block.rotation += delta * 0.01;
+            }
+
+            blockContainer.rotation -= delta * 0.01;
+        });
+    });
+    Array.prototype.randomAt = function () {
+        return this[parseInt(Math.random() * this.length)];
+    };
+    function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+</script>
+</body>
+</html>
