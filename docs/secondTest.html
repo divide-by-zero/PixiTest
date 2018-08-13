@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Hello World</title>
+</head>
+<script src="pixi.min.js"></script>
+<body>
+<script type="text/javascript">
+    let app = new PIXI.Application({width:480,height:480});
+    document.body.appendChild(app.view);
+
+    let texture = PIXI.utils.TextureCache["image/block.png"];
+    let sprite = new PIXI.Sprite(texture);
+
+    PIXI.loader.add("image/block.png").load(setup);
+
+    function setup() {
+        const blocks = [];
+        const blockSize = 32;
+        //Create the blockSprite sprite
+        for (let i = 0;i < 480;i+=blockSize){
+            for(let j = 0;j < 480;j+= blockSize){
+                let blockSprite = new PIXI.Sprite(PIXI.loader.resources["image/block.png"].texture);
+                blockSprite.x = i + blockSize/2;
+                blockSprite.y = j + blockSize/2;
+                blockSprite.anchor.set(0.5);
+                blockSprite.tint = randomAt([0xcc6fb3,0xffffff,0x444444]);
+                blocks.push(blockSprite);
+                app.stage.addChild(blockSprite);
+            }
+        }
+
+        app.ticker.add(delta=>{
+            for(let index = 0;index < blocks.length;index++){
+                const block = blocks[index];
+
+                block.rotation += delta * 0.1;
+            }
+        });
+    }
+
+    function randomAt(array){
+        return array[parseInt(Math.random() * array.length)];
+    }
+</script>
+</body>
+</html>
