@@ -1,0 +1,142 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>モザイク元画像読み込み＋モザイク作成＋クリックイベント(クリックしたらモザイク消し)</title>
+</head>
+<body>
+<script src="pixi.min.js"></script>
+<script type="text/javascript">
+    let app = new PIXI.Application({ width: 400, height: 400 });
+    let TextureCache = PIXI.utils.TextureCache;
+    document.body.appendChild(app.view);
+
+    var blockContainer = new PIXI.Container();
+    app.stage.addChild(blockContainer);
+
+    var uiContainer = new PIXI.Container();
+    app.stage.addChild(uiContainer);
+
+    const blocks = [];
+    const blockSize = 20;
+
+    blockContainer.x = app.screen.width / 2;
+    blockContainer.y = app.screen.height / 2;
+    blockContainer.pivot.x = app.screen.width / 2 - blockSize / 2;
+    blockContainer.pivot.y = app.screen.height / 2 - blockSize / 2;
+
+    PIXI.loader.add("block", "image/block.png").add("ball", "image/ball.png")
+        .add("base", "https://pbs.twimg.com/profile_images/1621590384/nattu_1_400x400.jpg").load(() => {
+            let textures = [
+                TextureCache["image/block.png"], TextureCache["image/ball.png"]
+            ]; //エイリアスを使ったTextureCache(正確には PIXI.utils.TextureCache)版
+            let textures2 =
+            [
+                PIXI.loader.resources["block"].texture, PIXI.loader.resources["ball"].texture
+            ]; //そもそも、名前付きロード(PIXI.loader.add(～～))を使っているので、PIXI.loader.resourcesを使った版
+
+            let bgSprite = new PIXI.Sprite(PIXI.loader.resources["base"].texture);
+
+            //背景画像をPixel化
+            var data = app.renderer.extract.pixels(bgSprite);
+
+            blockContainer.addChild(bgSprite);
+
+            var mosaicWidth = Math.ceil(bgSprite.width / blockSize);
+            var mosaicHeight = Math.ceil(bgSprite.height / blockSize);
+
+            for (let y = 0; y < mosaicHeight; y++) {
+                for (let x = 0; x < mosaicWidth; x++) {
+                    let rgba = { r: 0, g: 0, b: 0, a: 0 };
+                    for (let yp = 0; yp < blockSize; yp++) {
+                        for (let xp = 0; xp < blockSize; xp++) {
+                            let ty = (y * blockSize + yp);
+                            let tx = (x * blockSize + xp);
+                            if (ty < 0 || ty >= bgSprite.height) continue;
+                            if (tx < 0 || tx >= bgSprite.width) continue;
+                            rgba.r += data[(ty * bgSprite.width + tx) * 4 + 0];
+                            rgba.g += data[(ty * bgSprite.width + tx) * 4 + 1];
+                            rgba.b += data[(ty * bgSprite.width + tx) * 4 + 2];
+                            rgba.a += data[(ty * bgSprite.width + tx) * 4 + 3];
+                        }
+                    }
+
+                    rgba.r /= (blockSize * blockSize);
+                    rgba.g /= (blockSize * blockSize);
+                    rgba.b /= (blockSize * blockSize);
+                    rgba.a /= (blockSize * blockSize);
+
+                    if (rgba.a > 0) {
+                        rgba.a = 255;
+                    }
+
+                    let blockSprite = new PIXI.Sprite(textures2[0]);
+
+                    blockSprite.width = blockSize;
+                    blockSprite.height = blockSize;
+                    blockSprite.x = x * blockSize;
+                    blockSprite.y = y * blockSize;
+                    blockSprite.anchor.set(0.5);
+                    blockSprite.tint = (Math.floor(rgba.r) << 16) +(Math.floor(rgba.g) << 8) + Math.floor(rgba.b);
+                    blockSprite.alpha = Math.floor(rgba.a);
+
+                    let blockObj = { "sprite": blockSprite, "mode": 0 };
+
+                    blocks.push(blockObj);
+                    blockSprite.interactive = true;
+
+                    blockSprite.on("click",
+                        function () {
+                            blockSprite.visible = false;
+                        });
+
+                    blockSprite.on("touchend",
+                        function() {
+                            blockSprite.visible = false;
+                        });
+
+                    blockContainer.addChild(blockSprite);
+                }
+            }
+
+
+            let style = new PIXI.TextStyle({
+                fontFamily: "Arial",
+                fontSize: 36,
+                fill: "white",
+                stroke: '#ff3300',
+                strokeThickness: 4,
+                dropShadow: true,
+                dropShadowColor: "#000000",
+                dropShadowBlur: 4,
+                dropShadowAngle: Math.PI / 6,
+                dropShadowDistance: 6,
+            });
+
+            let message = new PIXI.Text("BlockBreaker", style);
+            uiContainer.addChild(message);
+
+            app.ticker.add(delta => {
+                for (let index = 0; index < blocks.length; index++) {
+                    const block = blocks[index];
+
+//                    if (block.mode == 0) {
+//                        block.sprite.rotation += delta * 0.05;
+//                    } else {
+//                        block.sprite.rotation -= delta * 0.05;
+//                    }
+                }
+
+                // blockContainer.rotation -= delta * 0.01;
+            });
+        });
+    Array.prototype.randomAt = function() {
+        return this[parseInt(Math.random() * this.length)];
+    };
+
+    function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+</script>
+</body>
+</html>
