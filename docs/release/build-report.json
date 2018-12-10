@@ -1,0 +1,136 @@
+﻿{
+    "Item": {
+        "Name": "Project",
+        "Size": 0,
+        "CompressedSize": 0
+    },
+    "Children": [{
+        "Item": {
+            "Name": "Runtime",
+            "Size": 0,
+            "CompressedSize": 0
+        },
+        "Children": [{
+            "Item": {
+                "Name": "TinyExport/MyTinyGame/html5/release/bin/runtime.js",
+                "Size": 784715,
+                "CompressedSize": 161190
+            }
+        }]
+    }, {
+        "Item": {
+            "Name": "Assets",
+            "Size": 0,
+            "CompressedSize": 0
+        },
+        "Children": [{
+            "Item": {
+                "Name": "JavaScript",
+                "Size": 6353,
+                "CompressedSize": 0
+            }
+        }, {
+            "Item": {
+                "Name": "Assets/MyTinyGame/MyTinyGame/Texture/GalaxyRaiders.png",
+                "Size": 0,
+                "CompressedSize": 0,
+                "Object": { "$TypeId": 10, "Guid": "66df872dfc25ffe41b14dd52d965a4d5", "FileId": 2800000, "Type": 3 }
+            },
+            "Children": [{
+                "Item": {
+                    "Name": "TinyExport/Assets/GalaxyRaiders.png",
+                    "Size": 8476,
+                    "CompressedSize": 6336,
+                    "Object": { "$TypeId": 10, "Guid": "66df872dfc25ffe41b14dd52d965a4d5", "FileId": 2800000, "Type": 3 }
+                }
+            }]
+        }, {
+            "Item": {
+                "Name": "Assets/MyTinyGame/MyTinyGame/Texture/Empty.png",
+                "Size": 0,
+                "CompressedSize": 0,
+                "Object": { "$TypeId": 10, "Guid": "cd8edfaf08e3071478fd8263aa97c4b6", "FileId": 2800000, "Type": 3 }
+            },
+            "Children": [{
+                "Item": {
+                    "Name": "TinyExport/Assets/Empty.png",
+                    "Size": 19984,
+                    "CompressedSize": 1937,
+                    "Object": { "$TypeId": 10, "Guid": "cd8edfaf08e3071478fd8263aa97c4b6", "FileId": 2800000, "Type": 3 }
+                }
+            }]
+        }, {
+            "Item": {
+                "Name": "Assets/TinySamples/GalaxyRaiders/Texture/background.png",
+                "Size": 0,
+                "CompressedSize": 0,
+                "Object": { "$TypeId": 10, "Guid": "0d2337155d64944a68ae459088e76a80", "FileId": 2800000, "Type": 3 }
+            },
+            "Children": [{
+                "Item": {
+                    "Name": "TinyExport/Assets/background.png",
+                    "Size": 11928,
+                    "CompressedSize": 8883,
+                    "Object": { "$TypeId": 10, "Guid": "0d2337155d64944a68ae459088e76a80", "FileId": 2800000, "Type": 3 }
+                }
+            }]
+        }]
+    }, {
+        "Item": {
+            "Name": "Code",
+            "Size": 0,
+            "CompressedSize": 0
+        },
+        "Children": [{
+            "Item": {
+                "Name": "TinyExport/MyTinyGame/html5/release/bin/entities.js",
+                "Size": 11960,
+                "CompressedSize": 2218
+            },
+            "Children": [{
+                "Item": {
+                    "Name": "EnemyGroup",
+                    "Size": 2215,
+                    "CompressedSize": 731
+                }
+            }, {
+                "Item": {
+                    "Name": "ExplosionGroup",
+                    "Size": 2254,
+                    "CompressedSize": 621
+                }
+            }, {
+                "Item": {
+                    "Name": "MainGroup",
+                    "Size": 7413,
+                    "CompressedSize": 1631
+                }
+            }]
+        }, {
+            "Item": {
+                "Name": "TinyExport/MyTinyGame/html5/release/bin/bindings.js",
+                "Size": 105962,
+                "CompressedSize": 8820
+            }
+        }, {
+            "Item": {
+                "Name": "TinyExport/MyTinyGame/html5/release/bin/code.js",
+                "Size": 13705,
+                "CompressedSize": 3031
+            },
+            "Children": [{
+                "Item": {
+                    "Name": "E:\\git\\Unity\\TinyTest\\TinyExport\\MyTinyGame\\html5\\release\\ScriptAssemblies\\tsc-emit.js",
+                    "Size": 13621,
+                    "CompressedSize": 2955
+                }
+            }]
+        }, {
+            "Item": {
+                "Name": "TinyExport/MyTinyGame/html5/release/bin/main.js",
+                "Size": 5045,
+                "CompressedSize": 1308
+            }
+        }]
+    }]
+}
